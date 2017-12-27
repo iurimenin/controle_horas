@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_uefa"
+            android:checked="true"
+            android:icon="@drawable/ic_today_white_24dp"
+            android:title="@string/today" />
+        <item
+            android:id="@+id/nav_libertadores"
+            android:icon="@drawable/ic_playlist_add_check_white_24dp"
+            android:title="@string/all_logs" />
+        <item
+            android:id="@+id/nav_afc"
+            android:icon="@drawable/ic_info_outline_white_24dp"
+            android:title="@string/info" />
+    </group>
+</menu>

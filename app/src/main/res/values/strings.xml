@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Horas Trabalhadas</string>
+    <string name="no_internet_connection">Você precisa estar conectado a internet.</string>
+    <string name="unknown_error">Erro desconhecido.</string>
+    <string name="unknown_sign_in_response">Erro desconhecido ao logar.</string>
+    <string name="registrar">Registrar</string>
+    <string name="no_log_found">Nenhum item logado =(</string>
+    <string name="notification_title_leave_time">Ei!! Olha só, você pode sair às %1$s!</string>
+    <string name="notification_title_worked_time">Ei!! Olha só, hoje você trabalhou %1$s horas!</string>
+    <string name="worked_on_day">Nesse dia você trabalhou:</string>
+    <string name="must_leave_at">Você poderá sair às:</string>
+    <string name="sample_hour">17:23</string>
+    <string name="afternoon_leave">Saida tarde</string>
+    <string name="moring_leave">Saida manhã</string>
+    <string name="morning_arrival">Entrada manhã</string>
+    <string name="logout">Sair</string>
+    <string name="date">Data:</string>
+    <string name="today">Hoje</string>
+    <string name="all_logs">Todos os logs</string>
+    <string name="info">Info</string>
+</resources>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout
+        android:elevation="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_view_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="22/12/2017"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_view_morning_arrival_label"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/morning_arrival"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_date"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/text_view_morning_arrival"
+            android:textSize="14sp"
+            android:text="08:00:00"
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_morning_arrival_label" />
+
+        <TextView
+            android:id="@+id/text_view_afternoon_arrival_label"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="Entrada tarde"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_morning_arrival" />
+
+        <TextView
+            android:id="@+id/text_view_afternoon_arrival"
+            android:textSize="14sp"
+            android:text="13:00:00"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_afternoon_arrival_label"/>
+
+        <TextView
+            android:id="@+id/text_view_morning_leave_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/moring_leave"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_date" />
+
+        <TextView
+            android:id="@+id/text_view_morning_leave"
+            android:textSize="14sp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/sample_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_morning_leave_label" />
+
+        <TextView
+            android:id="@+id/text_view_afternoon_leave_label"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/afternoon_leave"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_morning_leave" />
+
+        <TextView
+            android:id="@+id/text_view_afternoon_leave"
+            android:textSize="14sp"
+            android:text="17:00:00"
+            android:layout_marginEnd="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_afternoon_leave_label" />
+
+        <TextView
+            android:id="@+id/text_view_worked_label"
+            android:textSize="14sp"
+            android:visibility="invisible"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:text="@string/worked_on_day"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_afternoon_leave"/>
+
+        <TextView
+            android:id="@+id/text_view_worked"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:visibility="invisible"
+            android:layout_marginStart="8dp"
+            android:text="@string/sample_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_view_worked_label" />
+
+        <TextView
+            android:id="@+id/text_view_estimated_leave_label"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/must_leave_at"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_afternoon_leave"/>
+
+        <TextView
+            android:id="@+id/text_view_estimated_leave"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:layout_marginStart="8dp"
+            android:text="@string/sample_hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_view_estimated_leave_label" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>
