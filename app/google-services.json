@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "56101563906",
+    "firebase_url": "https://horas-trabalhadas.firebaseio.com",
+    "project_id": "horas-trabalhadas",
+    "storage_bucket": "horas-trabalhadas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56101563906:android:89fc0ef884c90fe2",
+        "android_client_info": {
+          "package_name": "io.github.iurimenin.horastrabalhadas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "56101563906-nnf13s1avp0359a96srgd3ajmm2ob7t0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCl1qMhmBtFI_wtM1AIza4ba2Ktk0gqxD0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
