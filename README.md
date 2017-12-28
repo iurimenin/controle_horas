@@ -1,4 +1,4 @@
-# Controle de horas [![CircleCI](https://circleci.com/gh/iurimenin/controle_horas/tree/master.svg?style=svg)](https://circleci.com/gh/iurimenin/controle_horas/tree/master) [![codebeat badge](https://codebeat.co/badges/f47fde2c-15d7-43f2-a0b1-625eca64a429)](https://codebeat.co/projects/github-com-iurimenin-controle_horas-master)
+# Controle de horas [![CircleCI](https://circleci.com/gh/iurimenin/controle_horas/tree/master.svg?style=shield)](https://circleci.com/gh/iurimenin/controle_horas/tree/master) [![codebeat badge](https://codebeat.co/badges/f47fde2c-15d7-43f2-a0b1-625eca64a429)](https://codebeat.co/projects/github-com-iurimenin-controle_horas-master)
 
 App to log worked hours per day
 
