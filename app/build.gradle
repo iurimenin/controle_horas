@@ -13,7 +13,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
-        versionName "0.0.1"
+        versionName "0.2.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         resConfigs "auto"
     }
@@ -61,6 +61,8 @@ dependencies {
     implementation("com.twitter.sdk.android:twitter-core:3.1.1") { transitive = true }
 
     implementation 'com.github.softfocusbr:dateutils:v1.1.0'
+
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

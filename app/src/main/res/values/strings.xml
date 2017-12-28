@@ -20,4 +20,10 @@
     <string name="info">Info</string>
     <string name="add_daylog">Registrar horário</string>
     <string name="widget_new_log_button">Widget de novo registro de hora</string>
+    <string name="delete_log">Deletar log?</string>
+    <string name="delete_log_content">Tem certeza que deseja deletar o log do dia %1$s?</string>
+    <string name="confirm_delete">Sim, delete</string>
+    <string name="cancel_delete">Não, cancele</string>
+    <string name="delete_success">Log deletado com sucesso!</string>
+    <string name="delete_error">Erro ao deletar o log!</string>
 </resources>

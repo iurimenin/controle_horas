@@ -2,13 +2,16 @@ package io.github.iurimenin.horastrabalhadas
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
+import br.com.softfocus.dateutils.DateUtils
+import com.afollestad.materialdialogs.MaterialDialog
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
@@ -100,5 +103,46 @@ class MainActivity : AppCompatActivity(), FirebaseRecyclerAdapterCallBack {
             View.GONE
     }
 
-    override fun onError(errorMessage: String) = Toast.makeText(this, "Error: $errorMessage", Toast.LENGTH_LONG).show()
+    override fun onError(errorMessage: String) = Snackbar
+            .make(main_coordinatorLayout, "Error: $errorMessage", Snackbar.LENGTH_LONG).show()
+
+    override fun onDelete(dayLog: DayLog) {
+
+        val materialDialog = MaterialDialog.Builder(this)
+                .autoDismiss(false)
+                .title(R.string.delete_log)
+                .negativeText(R.string.cancel_delete)
+                .positiveText(R.string.confirm_delete)
+                .positiveColor(ContextCompat.getColor(this, R.color.primaryColor))
+                .negativeColor(ContextCompat.getColor(this, R.color.secondaryColor))
+                .content(getString(R.string.delete_log_content, dayLog.date))
+                .onPositive { dialog, _ ->
+                    val dateRef = DateUtils.convertStringForDate(dayLog.date, DateUtils.DayMonthYearFormat)
+                    FirebaseUtils.instance
+                            .dayLogReference()
+                            .child(dateRef.dateStringFirebase)
+                            .removeValue()
+                            .addOnSuccessListener {
+                                val snackbar = Snackbar
+                                        .make(main_coordinatorLayout,
+                                                R.string.delete_success,
+                                                Snackbar.LENGTH_LONG)
+                                snackbar.show()
+                                dialog.dismiss()
+                            }
+                            .addOnFailureListener {
+                                val snackbar = Snackbar
+                                        .make(main_coordinatorLayout,
+                                                R.string.delete_error,
+                                                Snackbar.LENGTH_LONG)
+                                snackbar.show()
+                                dialog.dismiss()
+                            }
+                }
+                .onNegative { dialog, _ ->
+                    dialog.dismiss()
+                }.build()
+
+        materialDialog.show()
+    }
 }

@@ -1,13 +1,12 @@
 package io.github.iurimenin.horastrabalhadas
 
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.firebase.ui.common.ChangeEventType
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import kotlinx.android.synthetic.main.single_day_log.view.*
 
@@ -19,10 +18,13 @@ class DayLogAdapter(private val mCallback : FirebaseRecyclerAdapterCallBack,
                     dayLogs : FirebaseRecyclerOptions<DayLog>) :
         FirebaseRecyclerAdapter<DayLog, DayLogAdapter.DayLogHolder>(dayLogs) {
 
+    lateinit var mContext: Context
+
     class DayLogHolder(val view : View) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DayLogHolder {
 
+        mContext = parent.context
         val view = LayoutInflater
                 .from(parent.context)
                 .inflate(R.layout.single_day_log, parent, false)
@@ -31,6 +33,10 @@ class DayLogAdapter(private val mCallback : FirebaseRecyclerAdapterCallBack,
 
     override fun onBindViewHolder(holder: DayLogHolder, position: Int, model: DayLog) {
         holder.run {
+
+            view.image_button_delete.setOnClickListener {
+                mCallback.onDelete(model)
+            }
 
             view.text_view_date.text = model.date
             view.text_view_morning_arrival.text = model.morningArrivalTime
@@ -59,10 +65,6 @@ class DayLogAdapter(private val mCallback : FirebaseRecyclerAdapterCallBack,
                 }
             }
         }
-    }
-
-    override fun onChildChanged(type: ChangeEventType, snapshot: DataSnapshot, newIndex: Int, oldIndex: Int) {
-        super.onChildChanged(type, snapshot, newIndex, oldIndex)
     }
 
     override fun onDataChanged() {

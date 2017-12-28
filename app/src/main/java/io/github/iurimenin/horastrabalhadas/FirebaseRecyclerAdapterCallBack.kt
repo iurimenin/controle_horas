@@ -8,4 +8,6 @@ interface FirebaseRecyclerAdapterCallBack {
     fun onDataChanged(itemCount: Int)
 
     fun onError(errorMessage : String)
+
+    fun onDelete(dayLog: DayLog)
 }
