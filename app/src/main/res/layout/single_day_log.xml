@@ -27,7 +27,7 @@
 
         <ImageButton
             android:id="@+id/image_button_delete"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
