@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="40dp"
+    android:minHeight="40dp"
+    android:widgetCategory="home_screen"
+    android:resizeMode="horizontal|vertical"
+    android:initialLayout="@layout/daylog_widget"
+    android:previewImage="@drawable/widget_preview"
+    android:initialKeyguardLayout="@layout/daylog_widget">
+</appwidget-provider>

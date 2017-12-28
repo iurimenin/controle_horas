@@ -18,4 +18,6 @@
     <string name="today">Hoje</string>
     <string name="all_logs">Todos os logs</string>
     <string name="info">Info</string>
+    <string name="add_daylog">Registrar horário</string>
+    <string name="widget_new_log_button">Widget de novo registro de hora</string>
 </resources>
