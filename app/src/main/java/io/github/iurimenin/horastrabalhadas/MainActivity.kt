@@ -57,6 +57,9 @@ class MainActivity : AppCompatActivity(), FirebaseRecyclerAdapterCallBack {
 
         fab_add_time.setOnClickListener {
             DayLog.Companion.logNow(this)
+            Snackbar.make(main_coordinatorLayout,
+                            R.string.log_sucess,
+                            Snackbar.LENGTH_SHORT).show()
         }
     }
 

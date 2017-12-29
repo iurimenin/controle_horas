@@ -26,4 +26,5 @@
     <string name="cancel_delete">Não, cancele</string>
     <string name="delete_success">Log deletado com sucesso!</string>
     <string name="delete_error">Erro ao deletar o log!</string>
+    <string name="log_sucess">Log registrado!</string>
 </resources>

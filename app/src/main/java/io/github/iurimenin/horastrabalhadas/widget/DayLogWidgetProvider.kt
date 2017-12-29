@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
+import android.widget.Toast
 import io.github.iurimenin.horastrabalhadas.DayLog
 import io.github.iurimenin.horastrabalhadas.R
 
@@ -42,8 +43,11 @@ class DayLogWidgetProvider : AppWidgetProvider() {
         intent?.let{
 
             if (it.action == addDAyLogAction){
-                context?.let { ctx ->
-                    DayLog.Companion.logNow(ctx)
+                context?.let {
+                    DayLog.Companion.logNow(context)
+                    Toast.makeText(context,
+                            context.getString(R.string.log_sucess),
+                            Toast.LENGTH_SHORT).show()
                 }
             }
         }
