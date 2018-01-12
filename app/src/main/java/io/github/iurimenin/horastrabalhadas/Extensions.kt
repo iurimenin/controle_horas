@@ -27,6 +27,7 @@ val FirebaseDatabase.dayLogReference: DatabaseReference
                         .currentUser
                         ?.emailReference)
                 .child("dayLogs")
+                .child(Calendar.getInstance().get(Calendar.YEAR).toString())
         ref.keepSynced(true)
         return ref
     }
@@ -35,3 +36,14 @@ val Date.dateStringFirebase: String
     get() {
         return DateUtils.format(this, "dd|MM|yyyy")
     }
+
+fun Calendar.setLeaveTime(estimatedLeaveTime: String) {
+
+    val leaveTime = Calendar.getInstance()
+    leaveTime.time = DateUtils.convertStringForDate(estimatedLeaveTime, "HH:mm")
+
+    this.set(Calendar.HOUR_OF_DAY, leaveTime.get(Calendar.HOUR_OF_DAY))
+    this.set(Calendar.MINUTE, leaveTime.get(Calendar.MINUTE))
+    this.set(Calendar.SECOND, 0)
+    this.set(Calendar.MILLISECOND, 0)
+}

@@ -1,6 +1,8 @@
 package io.github.iurimenin.horastrabalhadas
 
 import android.content.Context
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.Log
 import br.com.softfocus.dateutils.DateUtils
 import com.google.firebase.database.DataSnapshot
@@ -19,10 +21,20 @@ data class DayLog(var date: String,
                   var afternoonLeaveTime: String,
                   var estimatedLeaveTime: String,
                   var workedTime : String,
-                  var workedTimeMilis : Long) {
+                  var workedTimeMilis : Long) : Parcelable {
+
+    private constructor(parcel: Parcel) : this(
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readLong())
 
     //Firebase needs this
-    constructor() : this("01/01/1070",
+    constructor() : this("",
             "",
             "",
             "",
@@ -42,6 +54,11 @@ data class DayLog(var date: String,
 
     companion object {
 
+        @JvmField val CREATOR: Parcelable.Creator<DayLog> = object : Parcelable.Creator<DayLog> {
+            override fun createFromParcel(source: Parcel): DayLog = DayLog(source)
+            override fun newArray(size: Int): Array<DayLog?> = arrayOfNulls(size)
+        }
+
         fun logNow(context: Context){
 
             val dateNow = Calendar.getInstance().time
@@ -50,62 +67,62 @@ data class DayLog(var date: String,
             ref.child(dateNow.dateStringFirebase)
                     .addListenerForSingleValueEvent(object : ValueEventListener {
 
-                override fun onDataChange(snapshot: DataSnapshot?) {
+                        override fun onDataChange(snapshot: DataSnapshot?) {
 
-                    if (snapshot?.hasChildren() == true) {
+                            if (snapshot?.hasChildren() == true) {
 
-                        val dayLog = snapshot.getValue(DayLog::class.java)
+                                val dayLog = snapshot.getValue(DayLog::class.java)
 
-                        dayLog?.let {
-                            when {
-                                it.morningArrivalTime.isBlank() -> {
-                                    dayLog.morningArrivalTime =
-                                            DateUtils.format(dateNow, "HH:mm")
-                                    ref.child(dateNow.dateStringFirebase).setValue(dayLog)
-                                }
-                                it.morningLeaveTime.isBlank() -> {
-                                    dayLog.morningLeaveTime = DateUtils.format(dateNow, "HH:mm")
-                                    dayLog.calculateWorkedTime()
-                                    ref.child(dateNow.dateStringFirebase).setValue(dayLog)
-                                }
-                                it.afternoonArrivalTime.isBlank() -> {
-                                    dayLog.afternoonArrivalTime =
-                                            DateUtils.format(dateNow, "HH:mm")
-                                    dayLog.calculateLeaveTime()
-                                    ref.child(dateNow.dateStringFirebase).setValue(dayLog)
-                                    NotificationUtils
-                                            .Companion
-                                            .notifyAfternoonLeaveTime(dayLog, context)
-                                }
-                                it.afternoonLeaveTime.isBlank() -> {
-                                    dayLog.afternoonLeaveTime =
-                                            DateUtils.format(dateNow, "HH:mm")
-                                    dayLog.calculateWorkedTime()
-                                    ref.child(dateNow.dateStringFirebase).setValue(dayLog)
-                                    NotificationUtils
-                                            .Companion
-                                            .notifyWorkedTime(dayLog, context)
+                                dayLog?.let {
+                                    when {
+                                        it.morningArrivalTime.isBlank() -> {
+                                            dayLog.morningArrivalTime =
+                                                    DateUtils.format(dateNow, "HH:mm")
+                                            ref.child(dateNow.dateStringFirebase).setValue(dayLog)
+                                        }
+                                        it.morningLeaveTime.isBlank() -> {
+                                            dayLog.morningLeaveTime = DateUtils.format(dateNow, "HH:mm")
+                                            dayLog.calculateWorkedTime()
+                                            ref.child(dateNow.dateStringFirebase).setValue(dayLog)
+                                        }
+                                        it.afternoonArrivalTime.isBlank() -> {
+                                            dayLog.afternoonArrivalTime =
+                                                    DateUtils.format(dateNow, "HH:mm")
+                                            dayLog.calculateLeaveTime()
+                                            ref.child(dateNow.dateStringFirebase).setValue(dayLog)
+                                            NotificationPublisher
+                                                    .Companion
+                                                    .notifyAfternoonLeaveTime(dayLog, context)
+                                        }
+                                        it.afternoonLeaveTime.isBlank() -> {
+                                            dayLog.afternoonLeaveTime =
+                                                    DateUtils.format(dateNow, "HH:mm")
+                                            dayLog.calculateWorkedTime()
+                                            ref.child(dateNow.dateStringFirebase).setValue(dayLog)
+                                            NotificationPublisher
+                                                    .Companion
+                                                    .notifyWorkedTime(dayLog, context)
 
+                                        }
+                                        else -> {
+                                            Log.d("DayLog", "Else do when")
+                                        }
+                                    }
                                 }
-                                else -> {
-                                    Log.d("DayLog", "Else do when")
-                                }
+                            } else {
+
+                                val dayLog = DayLog(
+                                        DateUtils.format(dateNow, DateUtils.DayMonthYearFormat),
+                                        DateUtils.format(dateNow, "HH:mm"))
+
+                                ref.child(dateNow.dateStringFirebase).setValue(dayLog)
                             }
                         }
-                    } else {
+                        override fun onCancelled(error: DatabaseError?) {
+                            Log.e("DayLog", "onCancelled", error?.toException()?.cause)
+                        }
+                    })
 
-                        val dayLog = DayLog(
-                                DateUtils.format(dateNow, DateUtils.DayMonthYearFormat),
-                                DateUtils.format(dateNow, "HH:mm"))
-
-                        ref.child(dateNow.dateStringFirebase).setValue(dayLog)
-                    }
-                }
-                override fun onCancelled(error: DatabaseError?) {
-                    Log.e("DayLog", "onCancelled", error?.toException()?.cause)
-                }
-            })
-            
         }
     }
 
@@ -169,5 +186,32 @@ data class DayLog(var date: String,
         totalTime -= TimeUnit.MINUTES.toMillis(minutes)
 
         workedTime = String.format("%02d:%02d", hours, minutes)
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(date)
+        parcel.writeString(morningArrivalTime)
+        parcel.writeString(morningLeaveTime)
+        parcel.writeString(afternoonArrivalTime)
+        parcel.writeString(afternoonLeaveTime)
+        parcel.writeString(estimatedLeaveTime)
+        parcel.writeString(workedTime)
+        parcel.writeLong(workedTimeMilis)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    fun save() {
+        val dateD = DateUtils.convertStringForDate(date, DateUtils.DayMonthYearFormat)
+        val ref = FirebaseUtils.instance.dayLogReference()
+        if (afternoonArrivalTime.isNotBlank())
+            calculateLeaveTime()
+
+        if (morningLeaveTime.isNotBlank() || afternoonLeaveTime.isNotBlank())
+            calculateWorkedTime()
+
+        ref.child(dateD.dateStringFirebase).setValue(this)
     }
 }

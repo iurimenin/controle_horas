@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
+import io.github.iurimenin.horastrabalhadas.callbacks.FirebaseRecyclerAdapterCallBack
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -55,11 +56,33 @@ class MainActivity : AppCompatActivity(), FirebaseRecyclerAdapterCallBack {
         recycler_view_days.layoutManager = layoutMaganer
         recycler_view_days.adapter = mFirebaseRecyclerAdapter
 
-        fab_add_time.setOnClickListener {
+        fab_add_time_now.hide()
+        fab_add_time_old.hide()
+
+        fab_add.setOnClickListener {
+            if (fab_add_time_now.isShown) {
+                fab_add_time_now.hide()
+                fab_add_time_old.hide()
+            } else {
+                fab_add_time_now.show()
+                fab_add_time_old.show()
+            }
+        }
+
+        fab_add_time_now.setOnClickListener {
+            fab_add_time_now.hide()
+            fab_add_time_old.hide()
             DayLog.Companion.logNow(this)
             Snackbar.make(main_coordinatorLayout,
                             R.string.log_sucess,
                             Snackbar.LENGTH_SHORT).show()
+        }
+
+        fab_add_time_old.setOnClickListener {
+            fab_add_time_now.hide()
+            fab_add_time_old.hide()
+            val intent = Intent(this, DayLogActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -147,5 +170,13 @@ class MainActivity : AppCompatActivity(), FirebaseRecyclerAdapterCallBack {
                 }.build()
 
         materialDialog.show()
+    }
+
+    override fun onItemClick(dayLog: DayLog) {
+
+        val intent = Intent(this, DayLogActivity::class.java)
+        intent.putExtra(DayLog::class.java.simpleName, dayLog)
+
+        startActivity(intent)
     }
 }
