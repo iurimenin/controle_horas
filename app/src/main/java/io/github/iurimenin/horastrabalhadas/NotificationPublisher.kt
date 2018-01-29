@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.support.v4.app.NotificationCompat
+import com.crashlytics.android.Crashlytics
 import java.util.*
 
 
@@ -38,7 +39,7 @@ class NotificationPublisher : BroadcastReceiver() {
             scheduleLeaveNotification(context, dayLog.estimatedLeaveTime)
         }
 
-        fun scheduleLeaveNotification(context: Context, estimatedLeaveTime: String) {
+        private fun scheduleLeaveNotification(context: Context, estimatedLeaveTime: String) {
 
             val notificationIntent = Intent(context, NotificationPublisher::class.java)
             val pendingIntent = PendingIntent.getBroadcast(context, 0,
@@ -49,6 +50,8 @@ class NotificationPublisher : BroadcastReceiver() {
 
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, future.timeInMillis, pendingIntent)
+
+            Crashlytics.log("scheduled Leave Notification to $estimatedLeaveTime")
         }
 
         fun notifyWorkedTime(dayLog: DayLog, context: Context) {
@@ -69,7 +72,10 @@ class NotificationPublisher : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
+        Crashlytics.log("onReceive NotificationPublisher")
         context?.let {
+
+            Crashlytics.log("onReceive NotificationPublisher context not null")
 
             val builder = NotificationCompat.Builder(context, channelId)
                     .setSmallIcon(R.drawable.ic_add_alarm_white_24dp)
