@@ -8,8 +8,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
+import android.os.Bundle
 import android.support.v4.app.NotificationCompat
-import com.crashlytics.android.Crashlytics
+import br.com.softfocus.dateutils.DateUtils
+import com.google.firebase.analytics.FirebaseAnalytics
 import java.util.*
 
 
@@ -51,7 +53,11 @@ class NotificationPublisher : BroadcastReceiver() {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, future.timeInMillis, pendingIntent)
 
-            Crashlytics.log("scheduled Leave Notification to $estimatedLeaveTime")
+            val params = Bundle()
+            params.putString("estimated_leave_time", estimatedLeaveTime)
+            params.putString("date", DateUtils.format(Date(), DateUtils.DayMonthYearFormat))
+
+            FirebaseAnalytics.getInstance(context).logEvent("schedule_leave_notification", params)
         }
 
         fun notifyWorkedTime(dayLog: DayLog, context: Context) {
@@ -72,10 +78,11 @@ class NotificationPublisher : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
-        Crashlytics.log("onReceive NotificationPublisher")
         context?.let {
 
-            Crashlytics.log("onReceive NotificationPublisher context not null")
+            val params = Bundle()
+            params.putString("date", DateUtils.format(Date(), DateUtils.DayMonthYearFormat))
+            FirebaseAnalytics.getInstance(it).logEvent("onReceive_scheduled_notification", params)
 
             val builder = NotificationCompat.Builder(context, channelId)
                     .setSmallIcon(R.drawable.ic_add_alarm_white_24dp)
