@@ -10,9 +10,12 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Bundle
 import android.support.v4.app.NotificationCompat
+import android.util.Log
 import br.com.softfocus.dateutils.DateUtils
 import com.google.firebase.analytics.FirebaseAnalytics
 import java.util.*
+
+
 
 
 /**
@@ -43,7 +46,9 @@ class NotificationPublisher : BroadcastReceiver() {
 
         private fun scheduleLeaveNotification(context: Context, estimatedLeaveTime: String) {
 
-            val notificationIntent = Intent(context, NotificationPublisher::class.java)
+            val notificationIntent = Intent("android.media.action.DISPLAY_NOTIFICATION")
+            notificationIntent.addCategory("android.intent.category.DEFAULT")
+
             val pendingIntent = PendingIntent.getBroadcast(context, 0,
                     notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
@@ -56,7 +61,6 @@ class NotificationPublisher : BroadcastReceiver() {
             val params = Bundle()
             params.putString("estimated_leave_time", estimatedLeaveTime)
             params.putString("date", DateUtils.format(Date(), DateUtils.DayMonthYearFormat))
-
             FirebaseAnalytics.getInstance(context).logEvent("schedule_leave_notification", params)
         }
 
@@ -78,6 +82,7 @@ class NotificationPublisher : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
+        Log.d("NotificationPublisher", "onReceive")
         context?.let {
 
             val params = Bundle()

@@ -37,7 +37,12 @@
 
         <activity android:name=".DayLogActivity"></activity>
 
-        <receiver android:name=".NotificationPublisher"></receiver>
+        <receiver android:name=".NotificationPublisher">
+            <intent-filter>
+                <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
