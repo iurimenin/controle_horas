@@ -15,39 +15,64 @@ import java.util.concurrent.TimeUnit
  * Created by Iuri Menin on 15/12/2017.
  */
 data class DayLog(var date: String,
+                  var dateTimestamp: Long,
                   var morningArrivalTime: String,
+                  var morningArrivalTimestamp: Long,
                   var morningLeaveTime: String,
+                  var morningLeaveTimestamp: Long,
                   var afternoonArrivalTime: String,
+                  var afternoonArrivalTimestamp: Long,
                   var afternoonLeaveTime: String,
+                  var afternoonLeaveTimestamp: Long,
                   var estimatedLeaveTime: String,
                   var workedTime : String,
                   var workedTimeMilis : Long) : Parcelable {
 
     private constructor(parcel: Parcel) : this(
             parcel.readString(),
+            parcel.readLong(),
             parcel.readString(),
+            parcel.readLong(),
             parcel.readString(),
+            parcel.readLong(),
             parcel.readString(),
+            parcel.readLong(),
             parcel.readString(),
+            parcel.readLong(),
             parcel.readString(),
             parcel.readString(),
             parcel.readLong())
 
     //Firebase needs this
-    constructor() : this("",
+    constructor() : this(
             "",
+            0,
             "",
+            0,
             "",
+            0,
             "",
+            0,
+            "",
+            0,
             "",
             "",
             0)
 
-    constructor(date: String, morningArrivalTime: String) : this(date,
+    constructor(date: String,
+                dateTimestamp: Long,
+                morningArrivalTime: String,
+                morningArrivalTimestamp: Long) : this(
+            date,
+            dateTimestamp,
             morningArrivalTime,
+            morningArrivalTimestamp,
             "",
+            0,
             "",
+            0,
             "",
+            0,
             "",
             "",
             0)
@@ -76,16 +101,20 @@ data class DayLog(var date: String,
                                 dayLog?.let {
                                     when {
                                         it.morningArrivalTime.isBlank() -> {
+                                            dayLog.morningArrivalTimestamp = dateNow.time
                                             dayLog.morningArrivalTime =
                                                     DateUtils.format(dateNow, "HH:mm")
                                             ref.child(dateNow.dateStringFirebase).setValue(dayLog)
                                         }
                                         it.morningLeaveTime.isBlank() -> {
-                                            dayLog.morningLeaveTime = DateUtils.format(dateNow, "HH:mm")
+                                            dayLog.morningLeaveTimestamp = dateNow.time
+                                            dayLog.morningLeaveTime =
+                                                    DateUtils.format(dateNow, "HH:mm")
                                             dayLog.calculateWorkedTime()
                                             ref.child(dateNow.dateStringFirebase).setValue(dayLog)
                                         }
                                         it.afternoonArrivalTime.isBlank() -> {
+                                            dayLog.afternoonArrivalTimestamp = dateNow.time
                                             dayLog.afternoonArrivalTime =
                                                     DateUtils.format(dateNow, "HH:mm")
                                             dayLog.calculateLeaveTime()
@@ -95,6 +124,7 @@ data class DayLog(var date: String,
                                                     .notifyAfternoonLeaveTime(dayLog, context)
                                         }
                                         it.afternoonLeaveTime.isBlank() -> {
+                                            dayLog.afternoonLeaveTimestamp = dateNow.time
                                             dayLog.afternoonLeaveTime =
                                                     DateUtils.format(dateNow, "HH:mm")
                                             dayLog.calculateWorkedTime()
@@ -113,7 +143,9 @@ data class DayLog(var date: String,
 
                                 val dayLog = DayLog(
                                         DateUtils.format(dateNow, DateUtils.DayMonthYearFormat),
-                                        DateUtils.format(dateNow, "HH:mm"))
+                                        dateNow.time,
+                                        DateUtils.format(dateNow, "HH:mm"),
+                                        dateNow.time)
 
                                 ref.child(dateNow.dateStringFirebase).setValue(dayLog)
                             }
@@ -190,10 +222,15 @@ data class DayLog(var date: String,
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(date)
+        parcel.writeLong(dateTimestamp)
         parcel.writeString(morningArrivalTime)
+        parcel.writeLong(morningArrivalTimestamp)
         parcel.writeString(morningLeaveTime)
+        parcel.writeLong(morningLeaveTimestamp)
         parcel.writeString(afternoonArrivalTime)
+        parcel.writeLong(afternoonArrivalTimestamp)
         parcel.writeString(afternoonLeaveTime)
+        parcel.writeLong(afternoonLeaveTimestamp)
         parcel.writeString(estimatedLeaveTime)
         parcel.writeString(workedTime)
         parcel.writeLong(workedTimeMilis)

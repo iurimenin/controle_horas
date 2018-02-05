@@ -21,13 +21,16 @@ val FirebaseUser.emailReference: String
 
 val FirebaseDatabase.dayLogReference: DatabaseReference
     get() {
+        val c = Calendar.getInstance()
         val ref = reference
                 .child(FirebaseAuth
                         .getInstance()
                         .currentUser
                         ?.emailReference)
                 .child("dayLogs")
-                .child(Calendar.getInstance().get(Calendar.YEAR).toString())
+                .child(c.get(Calendar.YEAR).toString())
+                .child(c.get(Calendar.MONTH).plus(1).toString())
+
         ref.keepSynced(true)
         return ref
     }
