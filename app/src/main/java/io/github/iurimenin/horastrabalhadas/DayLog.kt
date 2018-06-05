@@ -120,7 +120,6 @@ data class DayLog(var date: String,
                                             dayLog.calculateLeaveTime()
                                             ref.child(dateNow.dateStringFirebase).setValue(dayLog)
                                             NotificationPublisher
-                                                    .Companion
                                                     .notifyAfternoonLeaveTime(dayLog, context)
                                         }
                                         it.afternoonLeaveTime.isBlank() -> {
@@ -130,7 +129,6 @@ data class DayLog(var date: String,
                                             dayLog.calculateWorkedTime()
                                             ref.child(dateNow.dateStringFirebase).setValue(dayLog)
                                             NotificationPublisher
-                                                    .Companion
                                                     .notifyWorkedTime(dayLog, context)
 
                                         }
@@ -243,10 +241,9 @@ data class DayLog(var date: String,
     fun save() {
         val dateD = DateUtils.convertStringForDate(date, DateUtils.DayMonthYearFormat)
         val ref = FirebaseUtils.instance.dayLogReference()
-        if (afternoonArrivalTime.isNotBlank())
+        if (afternoonArrivalTime.isNotBlank() && afternoonLeaveTime.isBlank())
             calculateLeaveTime()
-
-        if (morningLeaveTime.isNotBlank() || afternoonLeaveTime.isNotBlank())
+        else if (morningLeaveTime.isNotBlank() || afternoonLeaveTime.isNotBlank())
             calculateWorkedTime()
 
         ref.child(dateD.dateStringFirebase).setValue(this)

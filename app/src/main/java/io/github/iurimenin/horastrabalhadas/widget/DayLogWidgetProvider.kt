@@ -16,7 +16,7 @@ import io.github.iurimenin.horastrabalhadas.R
  */
 class DayLogWidgetProvider : AppWidgetProvider() {
 
-    val addDAyLogAction = "addDayLog"
+    private val addDAyLogAction = "addDayLog"
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
 
@@ -44,7 +44,7 @@ class DayLogWidgetProvider : AppWidgetProvider() {
 
             if (it.action == addDAyLogAction){
                 context?.let {
-                    DayLog.Companion.logNow(context)
+                    DayLog.logNow(context)
                     Toast.makeText(context,
                             context.getString(R.string.log_sucess),
                             Toast.LENGTH_SHORT).show()
