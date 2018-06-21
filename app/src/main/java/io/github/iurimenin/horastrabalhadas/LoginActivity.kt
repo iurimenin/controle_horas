@@ -47,12 +47,12 @@ class LoginActivity : AppCompatActivity() {
                     return
                 }
 
-                if (response.errorCode == ErrorCodes.NO_NETWORK) {
+                if (response.error?.errorCode == ErrorCodes.NO_NETWORK) {
                     showSnackbar(R.string.no_internet_connection)
                     return
                 }
 
-                if (response.errorCode == ErrorCodes.UNKNOWN_ERROR) {
+                if (response.error?.errorCode == ErrorCodes.UNKNOWN_ERROR) {
                     showSnackbar(R.string.unknown_error)
                     return
                 }
@@ -89,11 +89,11 @@ class LoginActivity : AppCompatActivity() {
                         .createSignInIntentBuilder()
                         .setTheme(R.style.LoginUI)
                         .setAvailableProviders(Arrays.asList(
-                                AuthUI.IdpConfig.Builder(AuthUI.EMAIL_PROVIDER).build(),
-                                AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()
-//                              AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build(),
-//                              AuthUI.IdpConfig.Builder(AuthUI.FACEBOOK_PROVIDER).build(),
-//                              AuthUI.IdpConfig.Builder(AuthUI.TWITTER_PROVIDER).build())
+                                AuthUI.IdpConfig.EmailBuilder().build(),
+                                AuthUI.IdpConfig.GoogleBuilder().build()
+//                              AuthUI.IdpConfig.PhoneBuilder().build(),
+//                              AuthUI.IdpConfig.FacebookBuilder().build(),
+//                              AuthUI.IdpConfig.TwitterBuilder().build())
                         )).build(),
                 RC_SIGN_IN)
     }

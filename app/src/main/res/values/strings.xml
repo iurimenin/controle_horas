@@ -30,4 +30,5 @@
     <string name="log_sucess">Log registrado!</string>
     <string name="afternoon_arrival">Entrada tarde</string>
     <string name="save">Salvar</string>
+    <string name="channel_name">Horas Trabalhadas</string>
 </resources>

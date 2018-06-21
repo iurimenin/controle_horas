@@ -1,13 +1,11 @@
 package io.github.iurimenin.horastrabalhadas
 
-import android.app.AlarmManager
-import android.app.Notification
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.NotificationCompat
 import android.util.Log
@@ -26,6 +24,8 @@ class NotificationPublisher : BroadcastReceiver() {
     companion object {
 
         private val channelId = "notification_logs"
+        private val notificationID = 1
+        private val importance = NotificationManager.IMPORTANCE_HIGH
 
         fun notifyAfternoonLeaveTime(dayLog: DayLog, context: Context) {
 
@@ -37,26 +37,35 @@ class NotificationPublisher : BroadcastReceiver() {
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
 
-            val mNotificationManager =
+            val notificationManager =
                     context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            mNotificationManager.notify(1, builder.build())
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val name = context.getString(R.string.channel_name)
+                val channel = NotificationChannel(channelId, name, importance)
+                notificationManager.createNotificationChannel(channel)
+            }
+
+            notificationManager.notify(notificationID, builder.build())
 
             scheduleLeaveNotification(context, dayLog.estimatedLeaveTime)
         }
 
         private fun scheduleLeaveNotification(context: Context, estimatedLeaveTime: String) {
 
-            val notificationIntent = Intent("android.media.action.DISPLAY_NOTIFICATION")
-            notificationIntent.addCategory("android.intent.category.DEFAULT")
-
-            val pendingIntent = PendingIntent.getBroadcast(context, 0,
-                    notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-
             val future = Calendar.getInstance()
             future.setLeaveTime(estimatedLeaveTime)
 
+            val intentAlarm = Intent(context, NotificationPublisher::class.java)
+
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, future.timeInMillis, pendingIntent)
+
+            alarmManager.set(AlarmManager.RTC_WAKEUP,
+                    future.timeInMillis,
+                    PendingIntent.getBroadcast(context,
+                            1,
+                            intentAlarm,
+                            PendingIntent.FLAG_UPDATE_CURRENT))
 
             val params = Bundle()
             params.putString("estimated_leave_time", estimatedLeaveTime)
@@ -74,9 +83,16 @@ class NotificationPublisher : BroadcastReceiver() {
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
 
-            val mNotificationManager =
+            val notificationManager =
                     context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            mNotificationManager.notify(1, builder.build())
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val name = context.getString(R.string.channel_name)
+                val channel = NotificationChannel(channelId, name, importance)
+                notificationManager.createNotificationChannel(channel)
+            }
+
+            notificationManager.notify(notificationID, builder.build())
         }
     }
 
@@ -95,9 +111,16 @@ class NotificationPublisher : BroadcastReceiver() {
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
 
-            val mNotificationManager =
+            val notificationManager =
                     context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            mNotificationManager.notify(1, builder.build())
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val name = context.getString(R.string.channel_name)
+                val channel = NotificationChannel(channelId, name, importance)
+                notificationManager.createNotificationChannel(channel)
+            }
+
+            notificationManager.notify(notificationID, builder.build())
         }
     }
 }

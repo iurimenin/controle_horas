@@ -92,9 +92,9 @@ data class DayLog(var date: String,
             ref.child(dateNow.dateStringFirebase)
                     .addListenerForSingleValueEvent(object : ValueEventListener {
 
-                        override fun onDataChange(snapshot: DataSnapshot?) {
+                        override fun onDataChange(snapshot: DataSnapshot) {
 
-                            if (snapshot?.hasChildren() == true) {
+                            if (snapshot.hasChildren()) {
 
                                 val dayLog = snapshot.getValue(DayLog::class.java)
 
@@ -148,8 +148,9 @@ data class DayLog(var date: String,
                                 ref.child(dateNow.dateStringFirebase).setValue(dayLog)
                             }
                         }
-                        override fun onCancelled(error: DatabaseError?) {
-                            Log.e("DayLog", "onCancelled", error?.toException()?.cause)
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Log.e("DayLog", "onCancelled", error.toException()?.cause)
                         }
                     })
 
